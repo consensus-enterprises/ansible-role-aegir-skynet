@@ -1,1 +1,2 @@
 ---
+valkyrie_makefile: ../../getvalkyrie.valkyrie/files/valkyrie.make
