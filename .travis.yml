@@ -7,7 +7,7 @@ env:
 
 notifications:
   slack:
-    secure: "AIKMmxzYL6xbpY4uN8BxhXDs+Em/PpVHy4OZcnal6+jBKW5xNNPOXiZ1KyZuaC40sYzW43CC3xUYS8KxQ1JvAvkZoGQp6XgLBV5xePNd5vVx1+v/vwzCOSRaWU9wse/ROYYxHJCZ4Hbf5w+k0K2SGQwtKqlzNwcfL8OcBmattdA="
+    secure: "r8SI/zRizx3D8oD7oE+t957V+BiBWxzhZv2e6/Wwea99KTiJWlRWJXXC2HwBTH4nXo2XArGXua7Cv5OW3A+l4PK9AP7hqyzjg+X3OcXjAPqF9cJMuwQJJ5wIvcT+F5G5lFpcLIQE6aFpunS6v2NvO3U5rmyf+RhuEPtOe4a5syQ="
 
 before_install:
   - sudo apt-get update -qq
