@@ -30,7 +30,7 @@ install:
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
 
   # Make the repo available unser the published role name
-  - ln -s . ../getvalkyrie.valkyrie
+  - cd ..; ln -s ansible-role-valkyrie getvalkyrie.valkyrie; cd -
 
   # Install required dependencies.
   - ansible-galaxy install http://github.com/getvalkyrie/ansible-role-aegir,,getvalkyrie.aegir
