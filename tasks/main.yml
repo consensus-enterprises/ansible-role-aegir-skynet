@@ -1,1 +1,53 @@
 ---
+- name: Check if Valkyrie modules are enabled
+  shell: "drush @hm pm-info --fields=status --format=list {{ item }} | egrep 'disabled|not installed'"
+  sudo: True
+  sudo_user: aegir
+  register: valkyrie_modules_enabled
+  with_items: valkyrie_modules
+  changed_when: False
+  failed_when: False
+  ignore_errors: yes
+
+- name: Enable Valkyrie modules
+  command: "drush @hm --yes en {{ item.1 }}"
+  sudo: True
+  sudo_user: aegir
+  register: module_enabled
+  with_indexed_items: valkyrie_modules
+  when: "valkyrie_modules_enabled.results[{{ item.0 }}].rc == 0"
+
+#- name: Disable the cron-based Aegir queue.
+#  command: drush @hm hosting-pause dummy.site
+#  sudo: true
+#  sudo_user: aegir
+
+- name: Check if the default URL alias is set properly
+  shell: "drush @hm vget hosting_alias_subdomain --exact | grep '^{{ ansible_domain }}$'"
+  sudo: True
+  sudo_user: aegir
+  register: valkyrie_url_alias_check
+  changed_when: False
+  failed_when: False
+  ignore_errors: yes
+
+- name: Set a default URL alias (based on the Facter-provided $domain)
+  command: "drush @hm vset hosting_alias_subdomain {{ ansible_domain }}"
+  sudo: True
+  sudo_user: aegir
+  when: valkyrie_url_alias_check|failed
+
+- name: Check if sites can be deleted without first being disabled
+  shell: "drush @hm vget hosting_require_disable_before_delete | grep 'false$'"
+  sudo: True
+  sudo_user: aegir
+  register: valkyrie_disable_before_delete_check
+  changed_when: False
+  failed_when: False
+  ignore_errors: yes
+
+- name: Allow site deletion without disabling first.
+  command: drush @hm vset --format=boolean hosting_require_disable_before_delete 0
+  sudo: True
+  sudo_user: aegir
+  when: valkyrie_disable_before_delete_check|failed

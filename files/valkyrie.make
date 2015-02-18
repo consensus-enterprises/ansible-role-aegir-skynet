@@ -17,4 +17,7 @@ projects[hosting_valkyrie][download][type] = "git"
 projects[hosting_valkyrie][download][url] = "http://github.com/GetValkyrie/hosting_valkyrie.git"
 projects[hosting_valkyrie][download][branch] = "master"
 
-
+projects[hosting_reinstall][type] = "module"
+projects[hosting_reinstall][download][type] = "git"
+projects[hosting_reinstall][download][url] = "http://git.drupal.org/sandbox/ergonlogic/2386543.git"
+projects[hosting_reinstall][download][branch] = "7.x-3.x"

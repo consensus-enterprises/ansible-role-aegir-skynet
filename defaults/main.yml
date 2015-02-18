@@ -1,2 +1,9 @@
 ---
 valkyrie_makefile: ../../getvalkyrie.valkyrie/files/valkyrie.make
+valkyrie_modules:
+  - hosting_alias
+  - hosting_git
+  - hosting_git_pull
+  - hosting_platform_pathauto
+  - hosting_reinstall
+  - hosting_valkyrie
