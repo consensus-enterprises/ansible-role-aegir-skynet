@@ -7,3 +7,7 @@ valkyrie_modules:
   - hosting_platform_pathauto
   - hosting_reinstall
   - hosting_valkyrie
+valkyrie_use_skynet: True
+valkyrie_skynet_repo: https://github.com/PraxisLabs/skynet.git
+valkyrie_skynet_version: master
+valkyrie_skynet_update: False

@@ -51,3 +51,6 @@
   sudo: True
   sudo_user: aegir
   when: valkyrie_disable_before_delete_check|failed
+
+- include: skynet.yml
+  when: valkyrie_use_skynet == True

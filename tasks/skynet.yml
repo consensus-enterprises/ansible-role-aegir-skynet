@@ -1,0 +1,35 @@
+---
+
+- name: Ensure Skynet's dependencies are installed.
+  apt:
+    name: "{{ item }}"
+    state: installed
+  when: ansible_os_family == 'Debian'
+  with_items:
+    - python-pip
+    - python-dev
+    - build-essential
+    - python-mysqldb
+
+- name: Install Cement
+  pip:
+    name: cement
+    state: installed
+
+- name: Clone Skynet
+  git:
+    repo: "{{ valkyrie_skynet_repo }}"
+    dest: "{{ aegir_root }}/.drush/skynet"
+    depth: 1 # speeds things up
+    version: "{{ valkyrie_skynet_version }}"
+    update: "{{ valkyrie_skynet_update }}"
+  sudo: yes
+  sudo_user: "{{ aegir_user }}"
+
+- name: Clear Drush cache for Skynet extension
+  command: drush @none cc drush
+  args:
+    creates: "{{ aegir_root }}/.drush/cache/"
+  sudo: yes
+  sudo_user: "{{ aegir_user }}"
+
