@@ -1,5 +1,4 @@
 ---
-
 - name: Ensure Skynet's dependencies are installed.
   apt:
     name: "{{ item }}"
@@ -10,11 +9,21 @@
     - python-dev
     - build-essential
     - python-mysqldb
+    - supervisor
 
 - name: Install Cement
   pip:
     name: cement
-    state: installed
+    state: present
+
+- name: Allow 'aegir' user to restart Skynet queue
+  copy:
+    dest: "/etc/sudoers.d/{{ aegir_user }}-skynet"
+    content: |
+     {{ aegir_user }} ALL=NOPASSWD: /usr/bin/supervisorctl start skynet-queue
+     {{ aegir_user }} ALL=NOPASSWD: /usr/bin/supervisorctl stop skynet-queue
+     {{ aegir_user }} ALL=NOPASSWD: /usr/bin/supervisorctl restart skynet-queue\n
+    mode: 0440
 
 - name: Clone Skynet
   git:
@@ -25,11 +34,20 @@
     update: "{{ valkyrie_skynet_update }}"
   sudo: yes
   sudo_user: "{{ aegir_user }}"
+  notify:
+    - Clear Drush cache
+    - Verify Aegir front-end
 
-- name: Clear Drush cache for Skynet extension
-  command: drush @none cc drush
-  args:
-    creates: "{{ aegir_root }}/.drush/cache/"
-  sudo: yes
-  sudo_user: "{{ aegir_user }}"
+- name: Create Skynet config file
+  meta: flush_handlers
 
+- name: Add Skynet Supervisor config
+  template:
+    src: skynet-queue.conf.j2
+    dest: /etc/supervisor/conf.d/skynet-queue.conf
+  notify: Reload Supervisor
+
+- name: Start Skynet via Supervisor
+  supervisorctl:
+    name: skynet
+    state: started
