@@ -54,6 +54,3 @@
 
 - include: skynet.yml
   when: valkyrie_use_skynet == True
-
-- include: avahi.yml
-  when: valkyrie_use_avahi == True

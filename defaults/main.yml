@@ -8,11 +8,6 @@ valkyrie_modules:
   - hosting_reinstall
   - hosting_valkyrie
 valkyrie_use_skynet: True
-valkyrie_skynet_repo: https://github.com/GetValkyrie/skynet.git
+valkyrie_skynet_repo: https://github.com/PraxisLabs/skynet.git
 valkyrie_skynet_version: master
 valkyrie_skynet_update: False
-valkyrie_use_avahi: True
-valkyrie_avahi_repo: https://github.com/GetValkyrie/provision_avahi.git
-valkyrie_avahi_version: master
-valkyrie_avahi_update: False
-v
