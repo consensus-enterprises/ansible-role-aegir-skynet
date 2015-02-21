@@ -51,3 +51,5 @@ script:
 
   # Check if Aegir is installed and working.
   - sudo -u aegir -H drush @hm status | grep eldir
+  # Check that Skynet queue is running
+  - supervisorctl status skynet-queue | grep uptime
