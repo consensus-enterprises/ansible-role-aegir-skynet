@@ -49,5 +49,5 @@
 
 - name: Start Skynet via Supervisor
   supervisorctl:
-    name: skynet
+    name: skynet-queue
     state: started

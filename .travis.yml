@@ -53,3 +53,5 @@ script:
   - sudo -u aegir -H drush @hm status | grep eldir
   # Check that Skynet queue is running
   - sudo supervisorctl status skynet-queue | grep uptime
+  # Check that Avahi-alaises is running
+  - sudo supervisorctl status avahi-aliases | grep uptime
