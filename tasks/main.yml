@@ -57,3 +57,6 @@
 
 - include: avahi.yml
   when: valkyrie_use_avahi == True
+
+- include: deploy_keys.yml
+  when: valkyrie_generate_deploy_keys == True
