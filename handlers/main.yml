@@ -2,8 +2,3 @@
 - name: Reload Supervisor
   command: supervisorctl reload
   sudo: yes
-
-- name: Run the task queue
-  shell: drush @hm hosting-dispatch
-  sudo: yes
-  sudo_user: "{{ aegir_user }}"

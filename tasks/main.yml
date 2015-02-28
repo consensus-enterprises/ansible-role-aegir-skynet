@@ -18,12 +18,6 @@
   when: "valkyrie_modules_enabled.results[{{ item.0 }}].rc == 0"
   notify: Verify Aegir front-end
 
-- name: Clear site-level Drush cache on Aegir front-end
-  shell: drush @hm cc all
-  sudo: True
-  sudo_user: "{{ aegir_user }}"
-  changed_when: False
-
 - name: Check if the cron-based task queue is enabled.
   shell: "drush @hm vget hosting_queue_tasks_enabled | grep 'false$'"
   sudo: True
@@ -38,7 +32,6 @@
   sudo: True
   sudo_user: "{{ aegir_user }}"
   when: valkyrie_cron_task_queue_check|failed
-  notify: Run the task queue
 
 - name: Check if the default URL alias is set properly
   shell: "drush @hm vget hosting_alias_subdomain --exact | grep '^{{ ansible_domain }}$'"

@@ -34,9 +34,7 @@
     update: "{{ valkyrie_skynet_update }}"
   sudo: yes
   sudo_user: "{{ aegir_user }}"
-  notify:
-    - Clear Drush cache
-    - Verify Aegir front-end
+  notify: Verify Aegir front-end
 
 - name: Create Skynet config file
   meta: flush_handlers
