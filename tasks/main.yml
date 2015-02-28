@@ -60,3 +60,22 @@
 
 - include: deploy_keys.yml
   when: valkyrie_generate_deploy_keys == True
+
+- name: Retrieve Aegir login link
+  shell: "
+  echo '/////////////////////////////////////////////////////////////////////////////';
+  echo '  You can access the front-end of your Aegir install at:';
+  echo '=============================================================================';
+  drush @hm uli;
+  echo '=============================================================================';
+  echo '/////////////////////////////////////////////////////////////////////////////';
+  "
+  sudo: True
+  sudo_user: "{{ aegir_user }}"
+  register: aegir_login_link_output
+  changed_when: False
+
+- include: notifications.yml
+  when: valkyrie_display_notifications == True
+
+
