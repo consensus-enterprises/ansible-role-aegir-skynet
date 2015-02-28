@@ -24,6 +24,22 @@
   sudo_user: "{{ aegir_user }}"
   changed_when: False
 
+- name: Check if the cron-based task queue is enabled.
+  shell: "drush @hm vget hosting_queue_tasks_enabled | grep 'false$'"
+  sudo: True
+  sudo_user: "{{ aegir_user }}"
+  register: valkyrie_cron_task_queue_check
+  changed_when: False
+  failed_when: False
+  ignore_errors: yes
+
+- name: Disable cron-based task queue.
+  command: drush @hm vset --format=boolean hosting_queue_tasks_enabled 0
+  sudo: True
+  sudo_user: "{{ aegir_user }}"
+  when: valkyrie_cron_task_queue_check|failed
+  notify: Run the task queue
+
 - name: Check if the default URL alias is set properly
   shell: "drush @hm vget hosting_alias_subdomain --exact | grep '^{{ ansible_domain }}$'"
   sudo: True
