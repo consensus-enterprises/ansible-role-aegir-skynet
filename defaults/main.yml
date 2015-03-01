@@ -1,5 +1,6 @@
 ---
 valkyrie_makefile: ../../getvalkyrie.valkyrie/files/valkyrie.make
+valkyrie_frontend_url: valkyrie.local
 valkyrie_modules:
   - hosting_alias
   - hosting_git
