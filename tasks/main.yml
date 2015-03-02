@@ -1,4 +1,17 @@
 ---
+- name: Check for host user SSH public key
+  stat:
+    path: /vagrant/.valkyrie/ssh/authorized_keys
+  register: valkyrie_host_public_key_check
+
+- name: Allow SSH as the 'aegir' user
+  copy:
+    src: /vagrant/.valkyrie/ssh/authorized_keys
+    dest: /var/aegir/.ssh/authorized_keys
+  sudo: yes
+  sudo_user: "{{ aegir_user }}"
+  when: valkyrie_host_public_key_check|success
+
 - name: Check if Valkyrie modules are enabled
   shell: "drush @hm pm-info --fields=status --format=list {{ item }} | egrep 'disabled|not installed'"
   sudo: True
@@ -13,7 +26,6 @@
   command: "drush @hm --yes en {{ item.1 }} --no-verify --strict=0"
   sudo: True
   sudo_user: "{{ aegir_user }}"
-  register: module_enabled
   with_indexed_items: valkyrie_modules
   when: "valkyrie_modules_enabled.results[{{ item.0 }}].rc == 0"
   notify: Verify Aegir front-end
