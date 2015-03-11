@@ -30,10 +30,16 @@ Host {{ valkyrie_deploy_ssh_host_alias }}
   sudo: yes
   sudo_user: "{{ valkyrie_deploy_user }}"
 
+- name: Check for indicator that we're running in a Vagrant VM.
+  stat:
+    path: /vagrant
+  register: vagrant_vm_check
+
 - name: Ensure SSH key backup directory exists
   file:
     path: "{{ valkyrie_deploy_host_key_dir }}"
     state: directory
+  when: vagrant_vm_check.stat.exists
 
 - name: Store backup of SSH keys and config on host machine
   copy:
