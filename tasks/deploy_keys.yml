@@ -30,12 +30,16 @@ Host {{ valkyrie_deploy_ssh_host_alias }}
   sudo: yes
   sudo_user: "{{ valkyrie_deploy_user }}"
 
+- name: Ensure SSH key backup directory exists
+  file:
+    path: "{{ valkyrie_deploy_host_key_dir }}"
+    state: directory
+
 - name: Store backup of SSH keys and config on host machine
   copy:
     src: "{{ valkyrie_deploy_key_dir }}/"
     dest: "{{ valkyrie_deploy_host_key_dir }}"
   when: not deploy_key_check.stat.exists
-
 
 - name: Retrieve SSH public key
   shell: "
