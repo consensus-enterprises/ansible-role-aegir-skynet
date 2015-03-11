@@ -4,6 +4,13 @@
     path: /vagrant/.valkyrie/ssh/authorized_keys
   register: valkyrie_host_public_key_check
 
+- name: Ensure 'aegir' user SSH dir exists
+  file:
+    path: /var/aegir/.ssh
+    state: directory
+    owner: "{{ aegir_user }}"
+    group: "{{ aegir_user }}"
+
 - name: Allow SSH as the 'aegir' user
   copy:
     src: /vagrant/.valkyrie/ssh/authorized_keys
