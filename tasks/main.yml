@@ -1,9 +1,4 @@
 ---
-- name: Check for host user SSH public key
-  stat:
-    path: /vagrant/.valkyrie/ssh/authorized_keys
-  register: valkyrie_host_public_key_check
-
 - name: Ensure 'aegir' user SSH dir exists
   file:
     path: /var/aegir/.ssh
@@ -11,13 +6,18 @@
     owner: "{{ aegir_user }}"
     group: "{{ aegir_user }}"
 
+- name: Check for host user SSH public key
+  stat:
+    path: /vagrant/.valkyrie/ssh/authorized_keys
+  register: valkyrie_host_public_key_check
+
 - name: Allow SSH as the 'aegir' user
   copy:
     src: /vagrant/.valkyrie/ssh/authorized_keys
     dest: /var/aegir/.ssh/authorized_keys
   sudo: yes
   sudo_user: "{{ aegir_user }}"
-  when: valkyrie_host_public_key_check|success
+  when: valkyrie_host_public_key_check.stat.exists
 
 - name: Check if Valkyrie modules are enabled
   shell: "drush @hm pm-info --fields=status --format=list {{ item }} | egrep 'disabled|not installed'"
