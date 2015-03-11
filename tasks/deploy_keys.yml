@@ -45,7 +45,7 @@ Host {{ valkyrie_deploy_ssh_host_alias }}
   copy:
     src: "{{ valkyrie_deploy_key_dir }}/"
     dest: "{{ valkyrie_deploy_host_key_dir }}"
-  when: not deploy_key_check.stat.exists
+  when: vagrant_vm_check.stat.exists and not deploy_key_check.stat.exists
 
 - name: Retrieve SSH public key
   shell: "
