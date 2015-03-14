@@ -20,13 +20,10 @@
   when: not deploy_key_check.stat.exists
 
 - name: Add SSH config host entry
-  copy:
+  template:
+    src: ssh-config.j2
     dest: "{{ valkyrie_deploy_key_dir }}/config"
-    content: "StrictHostKeyChecking no
-UserKnownHostsFile=/dev/null
-Host {{ valkyrie_deploy_ssh_host_alias }}
-        Hostname {{ valkyrie_deploy_ssh_hostname }}
-        IdentityFile {{ valkyrie_deploy_key_dir }}/{{ valkyrie_deploy_key_name }}"
+    owner: "{{ valkyrie_deploy_user }}"
   sudo: yes
   sudo_user: "{{ valkyrie_deploy_user }}"
 
