@@ -2,8 +2,6 @@
 dependencies:
   - role: getvalkyrie.aegir
     src: git+http://github.com/GetValkyrie/ansible-role-aegir.git
-    aegir_makefile: "{{ valkyrie_makefile }}"
-    aegir_frontend_url: "{{ valkyrie_frontend_url }}"
 
 galaxy_info:
   author: ergonlogic

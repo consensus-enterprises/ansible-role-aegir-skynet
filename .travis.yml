@@ -30,7 +30,7 @@ install:
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
 
   # Make the repo available unser the published role name
-  - cd ..; ln -s ansible-role-valkyrie getvalkyrie.valkyrie; cd -
+  - cd ..; ln -s ansible-role-skynet getvalkyrie.skynet; cd -
 
   # Install required dependencies.
   - ansible-galaxy install http://github.com/getvalkyrie/ansible-role-aegir,,getvalkyrie.aegir
@@ -53,5 +53,3 @@ script:
   - sudo -u aegir -H drush @hm status | grep eldir
   # Check that Skynet queue is running
   - sudo supervisorctl status skynet-queue | grep uptime
-  # Check that Avahi-alaises is running
-  - sudo supervisorctl status avahi-aliases | grep uptime

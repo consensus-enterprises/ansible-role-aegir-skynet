@@ -27,11 +27,11 @@
 
 - name: Clone Skynet
   git:
-    repo: "{{ valkyrie_skynet_repo }}"
+    repo: "{{ skynet_repo }}"
     dest: "{{ aegir_root }}/.drush/skynet"
     depth: 1 # speeds things up
-    version: "{{ valkyrie_skynet_version }}"
-    update: "{{ valkyrie_skynet_update }}"
+    version: "{{ skynet_version }}"
+    update: "{{ skynet_update }}"
   sudo: yes
   sudo_user: "{{ aegir_user }}"
   notify: Verify Aegir front-end
