@@ -5,7 +5,6 @@ valkyrie_modules:
   - hosting_alias
   - hosting_git
   - hosting_git_pull
-  - hosting_platform_pathauto
   - hosting_reinstall
   - hosting_valkyrie
 valkyrie_use_skynet: True
