@@ -34,10 +34,13 @@
     update: "{{ skynet_update }}"
   sudo: yes
   sudo_user: "{{ aegir_user }}"
-  notify: Verify Aegir front-end
 
 - name: Create Skynet config file
-  meta: flush_handlers
+  shell: drush @hostmaster provision-verify
+  args:
+    creates: "{{ aegir_root }}/config/skynet.conf"
+  sudo: yes
+  sudo_user: "{{ aegir_user }}"
 
 - name: Add Skynet Supervisor config
   template:
