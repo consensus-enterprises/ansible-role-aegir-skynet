@@ -55,4 +55,4 @@ script:
   # Check that Skynet queue is running
   - sudo supervisorctl status skynet-queue | grep uptime
   # Run Aegir test suite
-  - sudo -u aegir -H drush @hostmaster provision-tests-run -y
+  - sudo -u aegir -s -H drush @hostmaster provision-tests-run -y
