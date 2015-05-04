@@ -33,6 +33,7 @@ install:
   - cd ..; ln -s ansible-role-skynet getvalkyrie.skynet; cd -
 
   # Install required dependencies.
+  - ansible-galaxy install http://github.com/getvalkyrie/ansible-role-mysql,,geerlingguy.mysql
   - ansible-galaxy install http://github.com/getvalkyrie/ansible-role-aegir,,getvalkyrie.aegir
 
 script:
