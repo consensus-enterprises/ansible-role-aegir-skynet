@@ -53,3 +53,5 @@ script:
   - sudo -u aegir -H drush @hm status | grep eldir
   # Check that Skynet queue is running
   - sudo supervisorctl status skynet-queue | grep uptime
+  # Run Aegir test suite
+  - sudo -u aegir -H drush @hosatmaster provision-tests-run -y
