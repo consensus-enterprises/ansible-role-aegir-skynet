@@ -33,7 +33,7 @@ install:
   - cd ..; ln -s ansible-role-skynet getvalkyrie.skynet; cd -
 
   # Install required dependencies.
-  - ansible-galaxy install http://github.com/getvalkyrie/ansible-role-mysql,,geerlingguy.mysql
+  - ansible-galaxy install http://github.com/getvalkyrie/ansible-role-mysql,,getvalkyrie.mysql
   - ansible-galaxy install http://github.com/getvalkyrie/ansible-role-aegir,,getvalkyrie.aegir
 
 script:
@@ -55,4 +55,4 @@ script:
   # Check that Skynet queue is running
   - sudo supervisorctl status skynet-queue | grep uptime
   # Run Aegir test suite
-  - sudo -u aegir -s -H -c "drush @hm cc drush && drush @hm provision-tests-run -y"
+  - sudo -u aegir -s -H -- drush @hostmaster provision-tests-run -y
