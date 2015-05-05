@@ -19,8 +19,8 @@ Vagrant.configure(2) do |config|
     inline: "PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ansible-playbook /vagrant/tests/test.yml -i /vagrant/tests/inventory --connection=local --sudo",
     keep_color: true
 
-  config.vm.provision "shell",
-    inline: "sudo -u aegir -s -H -- drush @hostmaster provision-tests-run -y",
-    keep_color: true
+  #config.vm.provision "shell",
+  #  inline: "sudo -u aegir -s -H -- drush @hostmaster provision-tests-run -y",
+  #  keep_color: true
 
 end
