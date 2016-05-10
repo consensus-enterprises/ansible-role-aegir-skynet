@@ -23,7 +23,7 @@
     content: |
      {{ aegir_user }} ALL=NOPASSWD: /usr/bin/supervisorctl start skynet-queue
      {{ aegir_user }} ALL=NOPASSWD: /usr/bin/supervisorctl stop skynet-queue
-     {{ aegir_user }} ALL=NOPASSWD: /usr/bin/supervisorctl restart skynet-queue\n
+     {{ aegir_user }} ALL=NOPASSWD: /usr/bin/supervisorctl restart skynet-queue
     mode: 0440
 
 - name: Clone Skynet
@@ -55,6 +55,8 @@
     src: skynet-queue.conf.j2
     dest: /etc/supervisor/conf.d/skynet-queue.conf
   notify: Reload Supervisor
+
+- meta: flush_handlers
 
 - name: Start Skynet via Supervisor
   supervisorctl:

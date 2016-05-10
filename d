@@ -1,1 +1,1 @@
-.mk/drumkit
+tests/bootstrap

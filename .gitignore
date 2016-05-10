@@ -1,3 +1,7 @@
 meta/.galaxy_install_info
+ansible.cfg
 .vagrant/*
-.valkyrie/*
+tests/roles/*
+!tests/roles/*.yml
+*.retry
+*.swp
