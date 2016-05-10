@@ -1,4 +1,5 @@
 ---
+
 - name: Ensure Skynet's dependencies are installed.
   apt:
     name: "{{ item }}"
@@ -32,22 +33,22 @@
     depth: 1 # speeds things up
     version: "{{ skynet_version }}"
     update: "{{ skynet_update }}"
-  sudo: yes
-  sudo_user: "{{ aegir_user }}"
+  become: yes
+  become_user: "{{ aegir_user }}"
   register: clone_skynet
 
 - name: Flush Drush cache to pick up Skynet commandfile
   shell: drush cc drush
-  sudo: yes
-  sudo_user: "{{ aegir_user }}"
+  become: yes
+  become_user: "{{ aegir_user }}"
   when: clone_skynet.changed
 
 - name: Create Skynet config file
   shell: drush @hostmaster provision-verify
   args:
     creates: "{{ aegir_root }}/config/skynet.conf"
-  sudo: yes
-  sudo_user: "{{ aegir_user }}"
+  become: yes
+  become_user: "{{ aegir_user }}"
 
 - name: Add Skynet Supervisor config
   template:

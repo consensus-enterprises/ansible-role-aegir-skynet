@@ -1,3 +1,4 @@
 ---
-- include: skynet.yml
+- name: Include Skynet deployment tasks.
+  include: skynet.yml
   when: skynet_enable == True

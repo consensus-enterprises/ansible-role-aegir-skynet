@@ -6,4 +6,4 @@
     - mysql_innodb_log_file_size: "5M"
   roles:
     - getvalkyrie.mysql
-    - getvalkyrie.skynet
+    - ergonlogic.aegir-skynet
