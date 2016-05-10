@@ -8,7 +8,7 @@ env:
   global:
     - ANSIBLE_ROLES_PATH=tests/roles
     - ANSIBLE_PLAYBOOK=tests/playbooks/test.yml
-		- ANSIBLE_REQUIREMENTS=tests/roles/requirements.yml
+    - ANSIBLE_REQUIREMENTS=tests/roles/requirements.yml
 
 install:
   - sudo make deps-ansible
