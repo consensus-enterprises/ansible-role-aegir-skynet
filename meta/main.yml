@@ -8,9 +8,9 @@ galaxy_info:
   company: "Ergon Logic Enterprises"
   license: "GPLv3 or later"
   min_ansible_version: 2.0
-	galaxy_tags:
-	- web
-	- aegir
+  galaxy_tags:
+  - web
+  - aegir
   platforms:
   - name: Ubuntu
     versions:
