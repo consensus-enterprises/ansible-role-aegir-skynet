@@ -12,6 +12,7 @@ env:
 
 install:
   - sudo make deps-ansible
+  - pip install pyyaml jinja2
   - make ansible
 
 script:
