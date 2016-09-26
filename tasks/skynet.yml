@@ -1,22 +1,5 @@
 ---
 
-- name: Ensure Skynet's dependencies are installed.
-  apt:
-    name: "{{ item }}"
-    state: installed
-  when: ansible_os_family == 'Debian'
-  with_items:
-    - python-pip
-    - python-dev
-    - build-essential
-    - python-mysqldb
-    - supervisor
-
-- name: Install Cement
-  pip:
-    name: cement
-    state: present
-
 - name: Allow 'aegir' user to restart Skynet queue
   copy:
     dest: "/etc/sudoers.d/{{ aegir_user }}-skynet"
