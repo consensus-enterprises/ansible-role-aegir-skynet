@@ -9,30 +9,6 @@
      {{ aegir_user }} ALL=NOPASSWD: /usr/bin/supervisorctl restart skynet-queue
     mode: 0440
 
-- name: Clone Skynet
-  git:
-    repo: "{{ skynet_repo }}"
-    dest: "{{ aegir_root }}/.drush/skynet"
-    depth: 1 # speeds things up
-    version: "{{ skynet_version }}"
-    update: "{{ skynet_update }}"
-  become: yes
-  become_user: "{{ aegir_user }}"
-  register: clone_skynet
-
-- name: Flush Drush cache to pick up Skynet commandfile
-  shell: drush cc drush
-  become: yes
-  become_user: "{{ aegir_user }}"
-  when: clone_skynet.changed
-
-- name: Create Skynet config file
-  shell: drush @hostmaster provision-verify
-  args:
-    creates: "{{ aegir_root }}/config/skynet.conf"
-  become: yes
-  become_user: "{{ aegir_user }}"
-
 - name: Add Skynet Supervisor config
   template:
     src: skynet-queue.conf.j2
