@@ -15,6 +15,13 @@
     dest: /etc/supervisor/conf.d/skynet-queue.conf
   notify: Reload Supervisor
 
+- name: Enable Skynet module
+  include_role:
+    name: consensus.aegir
+    tasks_from: extra-module.yml
+  vars:
+    aegir_extra_module: hosting_skynet
+
 - meta: flush_handlers
 
 - name: Start Skynet via Supervisor
