@@ -9,12 +9,6 @@
      {{ aegir_user }} ALL=NOPASSWD: /usr/bin/supervisorctl restart skynet-queue
     mode: 0440
 
-- name: Add Skynet Supervisor config
-  template:
-    src: skynet-queue.conf.j2
-    dest: /etc/supervisor/conf.d/skynet-queue.conf
-  notify: Reload Supervisor
-
 - name: Ensure that hosting-queued service is stopped and disabled.
   service:
     name: hosting-queued
@@ -40,6 +34,12 @@
 - name: Wait until the Skynet script is deployed.
   wait_for:
     path: "{{ aegir_root }}/config/skynet/skynet.py"
+
+- name: Add Skynet Supervisor config
+  template:
+    src: skynet-queue.conf.j2
+    dest: /etc/supervisor/conf.d/skynet-queue.conf
+  notify: Reload Supervisor
 
 - name: Start Skynet via Supervisor
   supervisorctl:
