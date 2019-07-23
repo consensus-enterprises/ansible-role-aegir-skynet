@@ -15,6 +15,13 @@
     dest: /etc/supervisor/conf.d/skynet-queue.conf
   notify: Reload Supervisor
 
+- name: Ensure that hosting-queued service is stopped and disabled.
+  service:
+    name: hosting-queued
+    state: stopped
+    enabled: no
+  register: stop_queued
+
 - name: Enable Skynet module
   include_role:
     name: consensus.aegir
@@ -23,6 +30,16 @@
     aegir_extra_module: hosting_skynet
 
 - meta: flush_handlers
+
+- name: Drain task queue in preparation of starting Skynet.
+  shell: drush @hostmaster hosting-tasks #--force
+  become: True
+  become_user: "{{ aegir_user }}"
+  when: stop_queued.changed
+
+- name: Wait until the Skynet script is deployed.
+  wait_for:
+    path: "{{ aegir_root }}/config/skynet/skynet.py"
 
 - name: Start Skynet via Supervisor
   supervisorctl:
