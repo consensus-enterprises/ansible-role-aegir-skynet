@@ -1,5 +1,11 @@
 ---
 
+- name: Ensure that hosting-queued service is stopped and disabled.
+  service:
+    name: hosting-queued
+    state: stopped
+    enabled: no
+
 - name: Allow 'aegir' user to restart Skynet queue
   copy:
     dest: "/etc/sudoers.d/{{ aegir_user }}-skynet"
@@ -8,13 +14,15 @@
      {{ aegir_user }} ALL=NOPASSWD: /usr/bin/supervisorctl stop skynet-queue
      {{ aegir_user }} ALL=NOPASSWD: /usr/bin/supervisorctl restart skynet-queue
     mode: 0440
+  register: aegir_skynet_sudoers
 
-- name: Ensure that hosting-queued service is stopped and disabled.
-  service:
-    name: hosting-queued
-    state: stopped
-    enabled: no
-  register: stop_queued
+- name: Clear the Drush cache, in case a new version of Drush was installed from source.
+  shell: "drush @none cc drush"
+  become: True
+  become_user: aegir
+  # If this is required here at all, it'll only be needed the first time we
+  # deploy Skynet. So we only trigger it in that context.
+  when: aegir_skynet_sudoers.changed
 
 - name: Enable Skynet module
   include_role:
@@ -23,23 +31,36 @@
   vars:
     aegir_extra_module: hosting_skynet
 
-- meta: flush_handlers
+- name: Ensure handlers don't run while the following tasks execute asyncronously.
+  meta: flush_handlers
 
 - name: Drain task queue in preparation of starting Skynet.
-  shell: drush @hostmaster hosting-tasks #--force
+  shell: drush @hostmaster hosting-tasks
   become: True
   become_user: "{{ aegir_user }}"
-  when: stop_queued.changed
+  when: aegir_extra_module_enabled.rc != 0
+
+- name: Verify the Aegir front-end to ensure Skynet config file is generated.
+  shell: drush @hostmaster hosting-task @hostmaster verify
+  become: True
+  become_user: "{{ aegir_user }}"
+  when: aegir_extra_module_enabled.rc != 0
 
 - name: Wait until the Skynet script is deployed.
   wait_for:
     path: "{{ aegir_root }}/config/skynet/skynet.py"
+  when: aegir_extra_module_enabled.rc != 0
 
 - name: Add Skynet Supervisor config
   template:
     src: skynet-queue.conf.j2
     dest: /etc/supervisor/conf.d/skynet-queue.conf
-  notify: Reload Supervisor
+  register: skynet_supervisor_config
+
+- name: Reload Supervisor
+  command: supervisorctl reload
+  become: yes
+  when: skynet_supervisor_config.changed |bool
 
 - name: Start Skynet via Supervisor
   supervisorctl:
