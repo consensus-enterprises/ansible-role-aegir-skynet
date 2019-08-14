@@ -16,14 +16,6 @@
     mode: 0440
   register: aegir_skynet_sudoers
 
-- name: Clear the Drush cache, in case a new version of Drush was installed from source.
-  shell: "drush @none cc drush"
-  become: True
-  become_user: aegir
-  # If this is required here at all, it'll only be needed the first time we
-  # deploy Skynet. So we only trigger it in that context.
-  when: aegir_skynet_sudoers.changed
-
 - name: Enable Skynet module
   include_role:
     name: consensus.aegir
@@ -41,7 +33,7 @@
   when: aegir_extra_module_enabled.rc != 0
 
 - name: Verify the Aegir front-end to ensure Skynet config file is generated.
-  shell: drush @hostmaster hosting-task @hostmaster verify
+  shell: drush @hostmaster hosting-task @hostmaster verify && drush @hostmaster hosting-tasks
   become: True
   become_user: "{{ aegir_user }}"
   when: aegir_extra_module_enabled.rc != 0
@@ -57,7 +49,13 @@
     dest: /etc/supervisor/conf.d/skynet-queue.conf
   register: skynet_supervisor_config
 
-- name: Reload Supervisor
+- name: Ensure Supervisor service is running
+  service:
+    name: supervisor
+    enabled: yes
+    state: started
+
+- name: Reload Supervisor if config changed
   command: supervisorctl reload
   become: yes
   when: skynet_supervisor_config.changed |bool

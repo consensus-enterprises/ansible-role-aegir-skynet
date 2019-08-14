@@ -18,8 +18,3 @@
     state: present
     executable: pip3
 
-- name: Start Supervisor service
-  service:
-    name: supervisor
-    enabled: yes
-    state: started
