@@ -28,18 +28,18 @@
   shell: drush @hostmaster hosting-tasks
   become: yes
   become_user: "{{ aegir_user }}"
-  when: aegir_extra_module_enabled.rc != 0
+  when: (aegir_extra_module_enabled.rc is defined) and (aegir_extra_module_enabled.rc != 0)
 
 - name: Verify the Aegir front-end to ensure Skynet config file is generated.
   shell: drush @hostmaster hosting-task @hostmaster verify && drush @hostmaster hosting-tasks
   become: yes
   become_user: "{{ aegir_user }}"
-  when: aegir_extra_module_enabled.rc != 0
+  when: (aegir_extra_module_enabled.rc is defined) and (aegir_extra_module_enabled.rc != 0)
 
 - name: Wait until the Skynet script is deployed.
   wait_for:
     path: "{{ aegir_root }}/config/skynet/skynet.py"
-  when: aegir_extra_module_enabled.rc != 0
+  when: (aegir_extra_module_enabled.rc is defined) and (aegir_extra_module_enabled.rc != 0)
 
 - name: Copy Skynet script to alternate path (if required).
   copy:
