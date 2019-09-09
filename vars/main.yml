@@ -1,0 +1,2 @@
+---
+skynet_default_bin_path: "{{ aegir_root }}/config/skynet/skynet.py"

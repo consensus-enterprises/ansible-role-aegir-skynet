@@ -1,6 +1,6 @@
 # {{ ansible_managed }}
 [program:skynet-queue]
-command={{ aegir_root }}/config/skynet/skynet.py queued --config_file={{ aegir_root }}/config/skynet/skynet.conf
+command={{ skynet_bin_path }} queued --config_file={{ aegir_root }}/config/skynet/skynet.conf
 numprocs=1
 numprocs_start=0
 priority=999
@@ -12,7 +12,7 @@ exitcodes=0,2
 stopsignal=TERM
 stopwaitsecs=10
 killasgroup=false
-user=aegir
+user={{ aegir_user }}
 redirect_stderr=false
 stdout_logfile=/var/log/supervisor/skynet-queue.out
 stdout_logfile_maxbytes=250MB
