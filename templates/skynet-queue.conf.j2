@@ -1,4 +1,4 @@
-# This file is managed by Ansible. Any changes will be reverted. See the infrastructure repository to apply persistent changes to this file.
+# {{ ansible_managed }}
 [program:skynet-queue]
 command={{ aegir_root }}/config/skynet/skynet.py queued --config_file={{ aegir_root }}/config/skynet/skynet.conf
 numprocs=1

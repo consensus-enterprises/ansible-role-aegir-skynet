@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+{{ aegir_user }} ALL=NOPASSWD: /usr/bin/supervisorctl start skynet-queue
+{{ aegir_user }} ALL=NOPASSWD: /usr/bin/supervisorctl stop skynet-queue
+{{ aegir_user }} ALL=NOPASSWD: /usr/bin/supervisorctl restart skynet-queue

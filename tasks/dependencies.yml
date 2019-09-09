@@ -10,6 +10,7 @@
       - build-essential
       - python3-mysqldb
       - supervisor
+  become: yes
   when: ansible_os_family == 'Debian'
 
 - name: Install Cement
@@ -17,4 +18,4 @@
     name: cement
     state: present
     executable: pip3
-
+  become: yes
