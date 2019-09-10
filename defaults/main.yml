@@ -4,3 +4,4 @@ skynet_repo: https://github.com/ergonlogic/skynet.git
 skynet_version: master
 skynet_update: False
 skynet_bin_path: "{{ skynet_default_bin_path }}"
+skynet_supervisor_command: "{{ skynet_bin_path }} queued --config_file={{ aegir_root }}/config/skynet/skynet.conf"

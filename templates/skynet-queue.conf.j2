@@ -1,6 +1,6 @@
 # {{ ansible_managed }}
 [program:skynet-queue]
-command={{ skynet_bin_path }} queued --config_file={{ aegir_root }}/config/skynet/skynet.conf
+command={{ skynet_supervisor_command }}
 numprocs=1
 numprocs_start=0
 priority=999
