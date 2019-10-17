@@ -1,0 +1,11 @@
+- name: Include dependency installation tasks.
+  include: ../../tasks/dependencies.yml
+
+- name: Check that dependency packages are installed.
+  shell: "dpkg -l|grep '^ii  {{ item }}'"
+  loop: "{{ skynet_dependencies }}"
+  changed_when: False
+
+- name: Check that Cement is installed.
+  shell: "pip3 show cement"
+  changed_when: False

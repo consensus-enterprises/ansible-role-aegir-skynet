@@ -1,0 +1,41 @@
+image: ubuntu:bionic
+
+stages:
+  - test
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  # Overcome world-writeable dir complaints. See:
+  # https://docs.ansible.com/ansible/devel/reference_appendices/config.html#cfg-in-world-writable-dir
+  ANSIBLE_CONFIG: ansible.cfg
+  DEBIAN_FRONTEND: noninteractive
+
+unit-tests: &test-defaults
+  stage: test
+  variables:
+    ANSIBLE_TEST_PLAYBOOK: tests/unit-tests.yml 
+  before_script:
+    # Install Git and GNU Make
+    - apt-get update -yqq
+    - apt-get install -yqq git make unzip
+    # TODO: Figure out a way to install these system packages as dependecies of
+    # the targets that use them.
+    - apt-get install -yqq python3-minimal python3-pip python3-yaml python3-jinja2 python3-apt
+    - pip3 install ntfy[matrix]
+    - update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+    - make ansible
+# TODO: flesh out this list of dependencies when we turn on end-to-end stage:
+#    - git clone https://gitlab.com/consensus.enterprises/ansible-roles/ansible-role-mysql.git tests/roles/geerlingguy.mysql
+#    - git clone https://gitlab.com/consensus.enterprises/ansible-roles/ansible-role-php.git tests/roles/geerlingguy.php
+#    - git clone https://gitlab.com/consensus.enterprises/ansible-roles/ansible-role-nginx.git tests/roles/geerlingguy.nginx
+#    - git clone https://gitlab.com/consensus.enterprises/ansible-roles/ansible-role-aegir.git tests/roles/consensus.aegir
+
+  script:
+    - source d
+    - make ansible-role-test #TODO: notify is busted somehow, no time to fix; make -s ntfy-ci NOTIFY_CI_RESULT=$?
+
+#end-to-end:
+#  <<: *test-defaults
+#  variables:
+#    ANSIBLE_TEST_PLAYBOOK: tests/end-to-end.yml
+

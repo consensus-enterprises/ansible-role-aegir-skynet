@@ -5,3 +5,10 @@ skynet_version: master
 skynet_update: False
 skynet_bin_path: "{{ skynet_default_bin_path }}"
 skynet_supervisor_command: "{{ skynet_bin_path }} queued --config_file={{ aegir_root }}/config/skynet/skynet.conf"
+skynet_dependencies:
+  - python3
+  - python3-pip
+  - python3-dev
+  - build-essential
+  - python3-mysqldb
+  - supervisor
