@@ -1,0 +1,13 @@
+---
+- name: Generate Supervisor config.
+  include: ../../tasks/supervisor-config.yml
+
+- name: Check that Supervisor config file exists.
+  shell: "[ -f /etc/supervisor/conf.d/skynet-queue.conf ]"
+  changed_when: False
+  become: yes
+
+
+
+
+

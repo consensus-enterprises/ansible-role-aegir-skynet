@@ -1,0 +1,12 @@
+---
+- name: Copy Skynet script to alternate path (if required).
+  copy:
+    src: "{{ skynet_default_bin_path }}"
+    dest: "{{ skynet_bin_path }}"
+    force: yes          # Script may be updated with newer Hostmaster platforms.
+    local_follow: yes   # Script is symlinked from the Hostmaster platform.
+    remote_src: yes     # Script is deployed by the hosting_skynet module.
+    mode: 0755
+  become: yes
+  when: skynet_bin_path != skynet_default_bin_path
+

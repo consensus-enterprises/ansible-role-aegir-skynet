@@ -1,0 +1,7 @@
+---
+- name: Add Skynet Supervisor config
+  template:
+    src: skynet-queue.conf.j2
+    dest: /etc/supervisor/conf.d/skynet-queue.conf
+  register: skynet_supervisor_config
+  become: yes

@@ -8,3 +8,12 @@
 - name: Include Skynet deployment tasks.
   include: skynet.yml
   when: skynet_enable == True
+
+- name: Include tasks for working around App-armour.
+  include: app-armour.yml
+
+- name: Include tasks for generating Supervisor config.
+  include: supervisor-config.yml
+
+- name: Include tasks for launching Supervisor service.
+  include: supervisor-service.yml

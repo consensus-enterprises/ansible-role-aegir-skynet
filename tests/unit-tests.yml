@@ -4,6 +4,7 @@
 
   vars:
     aegir_user: aegir
+    aegir_root: /var/aegir
 
   tasks:
 
@@ -11,5 +12,10 @@
     include_vars:
       file: consensus.aegir-skynet/defaults/main.yml
 
+  - name: Include main vars, since we call task includes separately.
+    include_vars:
+      file: consensus.aegir-skynet/vars/main.yml
+
   - include: unit-tests/dependencies.yml
   - include: unit-tests/sudo.yml
+  - include: unit-tests/supervisor-config.yml
