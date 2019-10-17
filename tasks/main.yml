@@ -2,6 +2,9 @@
 - name: Include Skynet dependency tasks.
   include: dependencies.yml
 
+- name: Include Skynet sudo tasks.
+  include: sudo.yml
+
 - name: Include Skynet deployment tasks.
   include: skynet.yml
   when: skynet_enable == True

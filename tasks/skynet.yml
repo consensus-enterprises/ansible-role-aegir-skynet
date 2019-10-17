@@ -7,13 +7,6 @@
     enabled: no
   become: yes
 
-- name: Allow 'aegir' user to restart Skynet queue
-  template:
-    dest: "/etc/sudoers.d/{{ aegir_user }}-skynet"
-    src: aegir-skynet-sudoers.j2
-    mode: 0440
-  become: yes
-
 - name: Enable Skynet module
   include_role:
     name: consensus.aegir
@@ -41,6 +34,7 @@
     path: "{{ aegir_root }}/config/skynet/skynet.py"
   when: (aegir_extra_module_enabled.rc is defined) and (aegir_extra_module_enabled.rc != 0)
 
+# app-armour.yml
 - name: Copy Skynet script to alternate path (if required).
   copy:
     src: "{{ skynet_default_bin_path }}"
@@ -52,6 +46,7 @@
   become: yes
   when: skynet_bin_path != skynet_default_bin_path
 
+# supervisor-config.yml
 - name: Add Skynet Supervisor config
   template:
     src: skynet-queue.conf.j2
@@ -59,6 +54,7 @@
   register: skynet_supervisor_config
   become: yes
 
+# supervisor-service.yml
 - name: Ensure Supervisor service is running
   service:
     name: supervisor

@@ -2,6 +2,9 @@
 - name: "'Unit-test' playbook."
   hosts: all
 
+  vars:
+    aegir_user: aegir
+
   tasks:
 
   - name: Include default variables, since we call task includes separately.
@@ -9,3 +12,4 @@
       file: consensus.aegir-skynet/defaults/main.yml
 
   - include: unit-tests/dependencies.yml
+  - include: unit-tests/sudo.yml
